@@ -2,10 +2,10 @@ with Ada.Text_IO, GNAT.Semaphores;
 use Ada.Text_IO, GNAT.Semaphores;
 
 with Ada.Containers.Indefinite_Doubly_Linked_Lists;
+use Ada.Containers;
 
 procedure Producer_Consumer is
-   package String_Lists is new Ada.Containers.Indefinite_Doubly_Linked_Lists
-     (String);
+   package String_Lists is new Indefinite_Doubly_Linked_Lists (String);
    use String_Lists;
 
    procedure Starter (Storage_Size : in Integer; Item_Numbers : in Integer) is

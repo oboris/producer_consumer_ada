@@ -5,8 +5,8 @@ with Ada.Containers.Indefinite_Doubly_Linked_Lists;
 --use Ada.Containers;
 
 procedure Producer_Consumer is
-   type item_str is new String;
-   package String_Lists is new Ada.Containers.Indefinite_Doubly_Linked_Lists(item_str);
+   --  type item_str is new String;
+   package String_Lists is New Ada.Containers.Indefinite_Doubly_Linked_Lists(String);
    use String_Lists;
 
    Storage : List;
@@ -34,7 +34,7 @@ procedure Producer_Consumer is
          Full_Storage.Seize;
          Access_Storage.Seize;
 
-         Storage.Append(item_str("item " & i'Img));
+         Storage.Append("item " & i'Img);
          Put_Line("Added item " & i'Img);
 
          Access_Storage.Release;
@@ -56,7 +56,7 @@ procedure Producer_Consumer is
          Access_Storage.Seize;
 
          --  item := Storage.First_Element;
-         Put_Line("Took " & String(Storage.First_Element));
+         Put_Line("Took " & Storage.First_Element);
          --  Put_Line("Took " & String(Item));
          Storage.Delete_First;
 

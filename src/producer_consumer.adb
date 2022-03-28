@@ -1,12 +1,12 @@
 with Ada.Text_IO, GNAT.Semaphores;
 use Ada.Text_IO, GNAT.Semaphores;
 
-with Ada.Containers.Doubly_Linked_Lists;
-use Ada.Containers;
+with Ada.Containers.Indefinite_Doubly_Linked_Lists;
+--use Ada.Containers;
 
 procedure Producer_Consumer is
-
-   package String_Lists is new Doubly_Linked_Lists(Integer);
+   type item_str is new String;
+   package String_Lists is new Ada.Containers.Indefinite_Doubly_Linked_Lists(item_str);
    use String_Lists;
 
    Storage : List;
@@ -34,7 +34,7 @@ procedure Producer_Consumer is
          Full_Storage.Seize;
          Access_Storage.Seize;
 
-         Storage.Append(i);
+         Storage.Append(item_str("item " & i'Img));
          Put_Line("Added item " & i'Img);
 
          Access_Storage.Release;
@@ -45,7 +45,7 @@ procedure Producer_Consumer is
 
    task body Consumer is
       Item_Numbers : Integer;
-      Item : Integer;
+      --Item : item_str(1..10);
    begin
       accept Start(Item_Numbers : in Integer) do
          Consumer.Item_Numbers := Item_Numbers;
@@ -55,9 +55,12 @@ procedure Producer_Consumer is
          Empty_Storage.Seize;
          Access_Storage.Seize;
 
-         Item := Storage.First_Element;
+         --  item := Storage.First_Element;
+         Put_Line("Took " & String(Storage.First_Element));
+         --  Put_Line("Took " & String(Item));
          Storage.Delete_First;
-         Put_Line("Took item" & Item'Img);
+
+
 
          Access_Storage.Release;
          Full_Storage.Release;
